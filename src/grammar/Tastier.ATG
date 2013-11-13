@@ -212,6 +212,8 @@ string generateLabel() {
 Symbol _lookup(Scope scope, string name) {
   foreach (Symbol s in scope) {
       if (s.Item1 == name) {
+        Console.WriteLine("_lookup");
+
         return s;
       }
   }
@@ -224,13 +226,18 @@ Symbol lookup(Stack<Scope> scopes, string name) {
 
   foreach (Scope scope in scopes) {
     foreach (Symbol s in scope) {
+
+
       if (s.Item1 == name) {
+        
         return s;
       }
       else {
+
         variableOffset += 1;
       }
     }
+
     stackFrameOffset += 1;
     variableOffset = 0;
   }
@@ -358,8 +365,16 @@ ProcDecl                        (.  string name; string label; Scope currentScop
 = "void"
   Ident<out name>               (.
                                     currentScope.Push(new Symbol(name, (int)TastierKind.Proc, (int)TastierType.Undefined, openScopes.Count, -1));
+                                   
+                                      Console.WriteLine("\n{0},\t{1},\t{2},\t{3},\t{4}",
+                                                          currentScope.Peek().Item1,
+                                                          (TastierKind)currentScope.Peek().Item2,
+                                                          (TastierType)currentScope.Peek().Item3,
+                                                          currentScope.Peek().Item4,
+                                                          currentScope.Peek().Item5); 
                                     openScopes.Push(new Scope());
                                     currentScope = openScopes.Peek();
+
                                 .)
   '(' ')'
   '{'                           (.
@@ -617,6 +632,13 @@ VarDecl<bool external>          (.
                                       externalDeclarations.Push(new Symbol(name, (int)TastierKind.Var, (int)type, 0, 0));
                                     } else {
                                       currentScope.Push(new Symbol(name, (int)TastierKind.Var, (int)type, openScopes.Count-1, currentScope.Count(s => s.Item2 == (int)TastierKind.Var)));
+                                      Console.WriteLine("Name,\tKind,\tType,\tSFP,\tADR\nWhere SFP of 1 is Global and after is the scope depth.\nWhere an ADR of -1 is a procedure");
+                                      Console.WriteLine("\n{0},\t{1},\t{2},\t{3},\t{4}",
+                                                          currentScope.Peek().Item1,
+                                                          (TastierKind)currentScope.Peek().Item2,
+                                                          (TastierType)currentScope.Peek().Item3,
+                                                          currentScope.Peek().Item4,
+                                                          currentScope.Peek().Item5);
                                     }
                                 .)
   { ',' Ident<out name>         (.
@@ -624,6 +646,13 @@ VarDecl<bool external>          (.
                                       externalDeclarations.Push(new Symbol(name, (int)TastierKind.Var, (int)type, 0, 0));
                                     } else {
                                       currentScope.Push(new Symbol(name, (int)TastierKind.Var, (int)type, openScopes.Count-1, currentScope.Count(s => s.Item2 == (int)TastierKind.Var)));
+                          
+                                      Console.WriteLine("\n{0},\t{1},\t{2},\t{3},\t{4}",
+                                                          currentScope.Peek().Item1,
+                                                          (TastierKind)currentScope.Peek().Item2,
+                                                          (TastierType)currentScope.Peek().Item3,
+                                                          currentScope.Peek().Item4,
+                                                          currentScope.Peek().Item5);
                                     }
                                 .)
   } ';'.

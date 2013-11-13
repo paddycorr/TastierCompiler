@@ -14,7 +14,6 @@ class Tastier { // DMA
       }
     } else Console.WriteLine("Usage: tcc <program.TAS> <output.asm>");
   }
-
 }
 
 }
